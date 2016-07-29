@@ -4,7 +4,7 @@ mongo="${MONGO:-mongo}"
 mongoport="${MONGOPORT:-27017}"
 elasticsearch="${ELASTICSEARCH:-elasticsearch}"
 elasticport="${ELASTICPORT:-9200}"
-
+nameSpaceSet="${NS_SET}"
 
 function _mongo() {
     mongo --quiet --host ${mongo} --port ${mongoport} <<EOF
@@ -29,4 +29,4 @@ done
 
 sleep 1
 
-mongo-connector --auto-commit-interval=0 --oplog-ts=/data/oplog.ts -m ${mongo}:${mongoport} -t ${elasticsearch}:${elasticport} -d elastic_doc_manager
+mongo-connector --auto-commit-interval=0 --oplog-ts=/data/oplog.ts -m ${mongo}:${mongoport} -t ${elasticsearch}:${elasticport} -d elastic2_doc_manager -n ${nameSpaceSet} --continue-on-error
