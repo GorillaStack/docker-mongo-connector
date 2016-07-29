@@ -1,13 +1,13 @@
 #This will prepare a elasticsearch node with mongo-connector enabled
 
 FROM python:3.4.3
-MAINTAINER yeasy@github
+MAINTAINER em0ney@github
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV TZ Asia/Shanghai
+ENV TZ UTC
 
 # Installing Mongo Connector which will connect MongoDB and Elasticsearch
-RUN pip install mongo-connector==2.1
+RUN pip install mongo-connector==2.4
 
 COPY startup.sh /tmp/
 
@@ -19,4 +19,3 @@ VOLUME /data
 
 # Sample usage when no commands is given outside
 CMD ["/bin/bash", "/tmp/startup.sh"]
-
