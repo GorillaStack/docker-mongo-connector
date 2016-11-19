@@ -1,5 +1,6 @@
 #!/bin/bash
 
+mongoUrl="${MONGOURL}"
 mongo="${MONGO:-mongo}"
 mongoport="${MONGOPORT:-27017}"
 elasticsearch="${ELASTICSEARCH:-elasticsearch}"
@@ -29,5 +30,10 @@ done
 
 sleep 1
 
-echo running "mongo-connector --auto-commit-interval=0 --oplog-ts=/data/oplog.ts -m ${mongo}:${mongoport} -t ${elasticsearch}:${elasticport} -d elastic2_doc_manager -n ${nameSpaceSet} --continue-on-error"
-mongo-connector --auto-commit-interval=0 --oplog-ts=/data/oplog.ts -m ${mongo}:${mongoport} -t ${elasticsearch}:${elasticport} -d elastic2_doc_manager -n ${nameSpaceSet} --continue-on-error
+if [ -z ${mongoUrl} ]; then
+  echo running "mongo-connector --auto-commit-interval=0 --oplog-ts=/data/oplog.ts -m ${mongo}:${mongoport} -t ${elasticsearch}:${elasticport} -d elastic2_doc_manager -n ${nameSpaceSet} --continue-on-error"
+  mongo-connector --auto-commit-interval=0 --oplog-ts=/data/oplog.ts -m ${mongo}:${mongoport} -t ${elasticsearch}:${elasticport} -d elastic2_doc_manager -n ${nameSpaceSet} --continue-on-error
+else
+  echo running "mongo-connector --auto-commit-interval=0 --oplog-ts=/data/oplog.ts -m ${mongoUrl} -t ${elasticsearch}:${elasticport} -d elastic2_doc_manager -n ${nameSpaceSet} --continue-on-error"
+  mongo-connector --auto-commit-interval=0 --oplog-ts=/data/oplog.ts -m ${mongoUrl} -t ${elasticsearch}:${elasticport} -d elastic2_doc_manager -n ${nameSpaceSet} --continue-on-error
+fi
