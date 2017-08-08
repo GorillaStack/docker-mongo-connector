@@ -8,6 +8,7 @@ mongoport="${MONGOPORT:-27017}"
 elasticsearch="${ELASTICSEARCH:-elasticsearch}"
 elasticport="${ELASTICPORT:-9200}"
 nameSpaceSet="${NS_SET}"
+confFile="${CONFFILE}"
 
 function _mongo() {
     mongo --quiet --host ${mongo} --port ${mongoport} <<EOF
@@ -31,6 +32,12 @@ do
 done
 
 sleep 1
+
+confFileLength=$(echo ${#confFile})
+if [ $confFileLength -gt 0 ]; then
+  echo "config file passed in as an env var, writing to file"
+  echo $confFile > /config/mongo-connector.conf.json
+fi
 
 if [ -f /config/mongo-connector.conf.json ]; then
   echo "config file found, relying on that for namespace configuration"
