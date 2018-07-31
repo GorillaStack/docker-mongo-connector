@@ -21,7 +21,7 @@ expected_result="true"
 
 while true;
 do
-  if [ "${is_master_result}" == "${expected_result}" ]; then
+  if [ "${is_master_result}" != "${expected_result}" ]; then
     is_master_result=$(_mongo "rs.isMaster().ismaster")
     echo "Waiting for Mongod node to assume primary status..."
     sleep 3
